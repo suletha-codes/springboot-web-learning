@@ -1,5 +1,7 @@
 package com.example.springboot_web_learning.service;
 
+import com.example.springboot_web_learning.dto.StudentRequestDTO;
+import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,25 @@ public class StudentService {
          existingStudent.setName(student.getName());
          existingStudent.setAge(student.getAge());
          return studentRepository.save(existingStudent);
+    }
+
+    //DTO
+    public Student saveStudent(StudentRequestDTO studentRequestDTO ){
+         Student student = new Student();
+         student.setName(studentRequestDTO.getName());
+         student.setAge(studentRequestDTO.getAge());
+
+         return studentRepository.save(student);
+    }
+
+    public StudentResponseDTO convertToResponseDTO(Student student){
+        StudentResponseDTO responseDTO = new StudentResponseDTO();
+
+        responseDTO.setId(student.getId());
+        responseDTO.setName(student.getName());
+        responseDTO.setAge(student.getAge());
+
+        return responseDTO;
     }
 
 
