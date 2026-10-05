@@ -1,6 +1,8 @@
 package com.example.springboot_web_learning.Controller;
 
 import com.example.springboot_web_learning.dto.StudentRequestDTO;
+import com.example.springboot_web_learning.dto.StudentResponseDTO;
+import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.service.StudentService;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,11 @@ public class StudentController {
     }
 
     // GET - Get all students
-    @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents() {
-        List<Student> students = studentService.getAllStudents();
-        return ResponseEntity.ok(students);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Student>> getAllStudents() {
+//        List<Student> students = studentService.getAllStudents();
+//        return ResponseEntity.ok(students);
+//    }
 
     // POST - Create a new student
 //    @PostMapping
@@ -33,17 +35,17 @@ public class StudentController {
 //    }
 
     // GET - Get one student by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
-
-        try {
-            Student student = studentService.getStudentById(id);
-            return ResponseEntity.ok(student);
-
-        } catch (RuntimeException exception) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+//
+//        try {
+//            Student student = studentService.getStudentById(id);
+//            return ResponseEntity.ok(student);
+//
+//        } catch (RuntimeException exception) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     // DELETE - Delete student by ID
     @DeleteMapping("/{id}")
@@ -59,24 +61,24 @@ public class StudentController {
     }
 
     // PUT - Update student by ID
-    @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(
-            @PathVariable Long id,
-            @RequestBody Student student) {
-
-        try {
-            Student updatedStudent = studentService.updateStudent(id, student);
-            return ResponseEntity.ok(updatedStudent);
-
-        } catch (RuntimeException exception) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Student> updateStudent(
+//            @PathVariable Long id,
+//            @RequestBody Student student) {
+//
+//        try {
+//            Student updatedStudent = studentService.updateStudent(id, student);
+//            return ResponseEntity.ok(updatedStudent);
+//
+//        } catch (RuntimeException exception) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     //DTO
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody StudentRequestDTO studentRequestDTO){
+    public ResponseEntity<StudentResponseDTO> createStudent(@RequestBody StudentRequestDTO studentRequestDTO){
 
 //        Student student = new Student();
 //        student.setName(studentRequestDTO.getName());
@@ -84,7 +86,42 @@ public class StudentController {
 //        Student savedStudent = studentService.saveStudent(student);
 
         Student savedStudent = studentService.saveStudent(studentRequestDTO);
-        return ResponseEntity.ok(savedStudent);
+        StudentResponseDTO responseDTO = studentService.convertToResponseDTO(savedStudent);
+        return ResponseEntity.ok(responseDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<List<StudentResponseDTO>> getAllStudents(){
+        List<StudentResponseDTO> students = studentService.getAllStudentResponses();
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable Long id) {
+
+        try {
+            StudentResponseDTO responseDTO = studentService.getStudentResponseById(id);
+            return ResponseEntity.ok(responseDTO);
+
+        } catch (RuntimeException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(
+            @PathVariable Long id,
+            @RequestBody StudentUpdateRequestDTO studentUpdateRequestDTO) {
+
+        try {
+            Student updatedStudent = studentService.updateStudent(id, studentUpdateRequestDTO);
+            return ResponseEntity.ok(updatedStudent);
+
+        } catch (RuntimeException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
 

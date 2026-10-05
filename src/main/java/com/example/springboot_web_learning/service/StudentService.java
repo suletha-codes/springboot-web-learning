@@ -2,11 +2,15 @@ package com.example.springboot_web_learning.service;
 
 import com.example.springboot_web_learning.dto.StudentRequestDTO;
 import com.example.springboot_web_learning.dto.StudentResponseDTO;
+import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.repository.StudentRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -20,36 +24,36 @@ public class StudentService {
 //        return studentRepository.findStudent();
 //    }
 
-    public Student saveStudent(Student student){
-
-        return studentRepository.save(student);
-    }
-
-    //To get list of all students
-    public List<Student> getAllStudents(){
-        return studentRepository.findAll();
-    }
-
-
-    //To get a student by specific id from URL
-    public Student getStudentById(Long id) {
-        return studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not Fount!"));
-    }
+//    public Student saveStudent(Student student){
+//
+//        return studentRepository.save(student);
+//    }
+//
+//    //To get list of all students
+//    public List<Student> getAllStudents(){
+//        return studentRepository.findAll();
+//    }
+//
+//
+//    //To get a student by specific id from URL
+//    public Student getStudentById(Long id) {
+//        return studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not Fount!"));
+//    }
 
     //To delete a student by id
-
     public void deleteStudent(Long id){
         Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
         studentRepository.delete(student);
     }
-    //Update the student by ID
-    public Student updateStudent(Long id, Student student){
-         Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found!"));
 
-         existingStudent.setName(student.getName());
-         existingStudent.setAge(student.getAge());
-         return studentRepository.save(existingStudent);
-    }
+    //Update the student by ID
+//    public Student updateStudent(Long id, Student student){
+//         Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found!"));
+//
+//         existingStudent.setName(student.getName());
+//         existingStudent.setAge(student.getAge());
+//         return studentRepository.save(existingStudent);
+//    }
 
     //DTO
     public Student saveStudent(StudentRequestDTO studentRequestDTO ){
@@ -69,6 +73,38 @@ public class StudentService {
 
         return responseDTO;
     }
+
+    public List<StudentResponseDTO> getAllStudentResponses(){
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public StudentResponseDTO getStudentResponseById(Long id){
+        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        return convertToResponseDTO(student);
+
+    }
+
+    public Student updateStudent(Long id, StudentUpdateRequestDTO studentUpdateRequestDTO){
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found!"));
+
+        existingStudent.setName(studentUpdateRequestDTO.getName());
+        existingStudent.setAge(studentUpdateRequestDTO.getAge());
+        return studentRepository.save(existingStudent);
+    }
+
+    public StudentResponseDTO updateStudentResponse(Long id, StudentUpdateRequestDTO studentUpdateRequestDTO){
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found!"));
+
+        existingStudent.setName(studentUpdateRequestDTO.getName());
+        existingStudent.setAge(studentUpdateRequestDTO.getAge());
+        Student updatedStudent = studentRepository.save(existingStudent);
+        return convertToResponseDTO(updatedStudent);
+    }
+
+
 
 
 }
