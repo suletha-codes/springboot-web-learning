@@ -109,18 +109,66 @@ public class StudentController {
         }
     }
 
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Student> updateStudent(
+//            @PathVariable Long id,
+//            @RequestBody StudentUpdateRequestDTO studentUpdateRequestDTO) {
+//
+//        try {
+//            Student updatedStudent = studentService.updateStudent(id, studentUpdateRequestDTO);
+//            return ResponseEntity.ok(updatedStudent);
+//
+//        } catch (RuntimeException exception) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(
+    public ResponseEntity<StudentResponseDTO> updateStudent(
             @PathVariable Long id,
             @RequestBody StudentUpdateRequestDTO studentUpdateRequestDTO) {
 
         try {
-            Student updatedStudent = studentService.updateStudent(id, studentUpdateRequestDTO);
-            return ResponseEntity.ok(updatedStudent);
+            StudentResponseDTO responseDTO = studentService.updateStudentResponse(id, studentUpdateRequestDTO);
+            return ResponseEntity.ok(responseDTO);
 
         } catch (RuntimeException exception) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //Custom methods
+    //Find by student name in the URL
+    @GetMapping("/name/{name}")
+    public ResponseEntity<StudentResponseDTO> getStudentByName(@PathVariable String name){
+        try {
+            StudentResponseDTO responseDTO = studentService.getStudentByName(name);
+            return ResponseEntity.ok(responseDTO);
+        }catch (RuntimeException exception){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //Search by partial name
+    @GetMapping("/search/{name}")
+    public ResponseEntity<List<StudentResponseDTO>> searchByStudentName(@PathVariable String name){
+        List<StudentResponseDTO> students = studentService.getStudentByNameContaining(name);
+        return ResponseEntity.ok(students);
+    }
+
+
+    //Sorting
+    @GetMapping("/sort")
+    public ResponseEntity<List<StudentResponseDTO>> getAllStudentsSorted(@RequestParam String field){
+        List<StudentResponseDTO> students = studentService.getAllStudentsSorted(field);
+        return ResponseEntity.ok(students);
+    }
+
+    //Sorting by Asending or descending
+    @GetMapping("/sort/dir")
+    public ResponseEntity<List<StudentResponseDTO>> getAllStudentsSorted(@RequestParam String field, @RequestParam String direction){
+        List<StudentResponseDTO> students = studentService.getAllStudentsSorted(field, direction);
+        return ResponseEntity.ok(students);
     }
 
 }

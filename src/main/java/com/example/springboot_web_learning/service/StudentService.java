@@ -5,6 +5,7 @@ import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.repository.StudentRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,6 +103,47 @@ public class StudentService {
         existingStudent.setAge(studentUpdateRequestDTO.getAge());
         Student updatedStudent = studentRepository.save(existingStudent);
         return convertToResponseDTO(updatedStudent);
+    }
+
+    //Find by name
+    public StudentResponseDTO getStudentByName(String name){
+        Student student = studentRepository.findByName(name).orElseThrow(() -> new RuntimeException("Student not found"));
+
+        return convertToResponseDTO(student);
+    }
+
+    //Search by partial name
+    public List<StudentResponseDTO> getStudentByNameContaining(String name){
+        List<Student> students = studentRepository.findByNameContaining(name);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Sorting
+    public List<StudentResponseDTO> getAllStudentsSorted(String field){
+        Sort sort = Sort.by(field);
+        List<Student> students = studentRepository.findAll(sort);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Sorting by ASC/DSC
+    public List<StudentResponseDTO> getAllStudentsSorted(String field, String direction){
+        Sort sort;
+        if(direction.equalsIgnoreCase("desc")){
+            sort = Sort.by(field).descending();
+        }else {
+            sort = Sort.by(field).ascending();
+        }
+        List<Student> students = studentRepository.findAll(sort);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
     }
 
 
