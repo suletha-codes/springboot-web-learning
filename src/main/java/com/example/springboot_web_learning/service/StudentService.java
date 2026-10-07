@@ -171,6 +171,65 @@ public class StudentService {
         return studentPage.map(this::convertToResponseDTO);
     }
 
+    //Derived Query Methods
+
+    //Find by Age
+    public List<StudentResponseDTO> getStudentByAge(int age){
+        List<Student> students = studentRepository.findByAge(age);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by Age GreaterThan
+
+    public List<StudentResponseDTO> getStudentByAgeGreaterThan(int age){
+        List<Student> students = studentRepository.findByAgeGreaterThan(age);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    //Find by Age LessThan
+
+    public List<StudentResponseDTO> getStudentByAgeLessThan(int age){
+        List<Student> students = studentRepository.findByAgeLessThan(age);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by Age GreaterThanEqual
+
+    public List<StudentResponseDTO> getStudentByAgeGreaterThanEqual(int age){
+        List<Student> students = studentRepository.findByAgeGreaterThanEqual(age);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by Age LessThanEqual
+
+    public List<StudentResponseDTO> getStudentByAgeLessThanEqual(int age){
+        List<Student> students = studentRepository.findByAgeLessThanEqual(age);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+    //Find by Age Between
+    public List<StudentResponseDTO> getStudentByAgeBetween(int minAge, int maxAge){
+        List<Student> students = studentRepository.findByAgeBetween(minAge, maxAge);
+
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
 
 
 

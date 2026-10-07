@@ -191,6 +191,60 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    //Derived Query Methods
+
+    //Find by Age
+
+    @GetMapping("/age/{age}")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAge(@PathVariable int age){
+        List<StudentResponseDTO> students = studentService.getStudentByAge(age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Age GreaterThan
+
+    @GetMapping("/age/greater/{age}")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAgeGreaterThan(@PathVariable int age){
+        List<StudentResponseDTO> students = studentService.getStudentByAgeGreaterThan(age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Age LessThan
+
+    @GetMapping("/age/less/{age}")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAgeLessThan(@PathVariable int age){
+        List<StudentResponseDTO> students = studentService.getStudentByAgeLessThan(age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Age GreaterThanEqual
+    @GetMapping("/age/greater-equal/{age}")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAgeGreaterThanEqual(@PathVariable int age){
+        List<StudentResponseDTO> students = studentService.getStudentByAgeGreaterThanEqual(age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Age LessThan
+
+    @GetMapping("/age/less-equal/{age}")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAgeLessThanEqual(@PathVariable int age){
+        List<StudentResponseDTO> students = studentService.getStudentByAgeLessThanEqual(age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Age Between
+
+    @GetMapping("/age/between")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge){
+        List<StudentResponseDTO> students = studentService.getStudentByAgeBetween(minAge, maxAge);
+
+        return ResponseEntity.ok(students);
+    }
 
 
 
