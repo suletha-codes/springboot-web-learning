@@ -5,6 +5,7 @@ import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.service.StudentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -157,6 +158,8 @@ public class StudentController {
     }
 
 
+
+
     //Sorting
     @GetMapping("/sort")
     public ResponseEntity<List<StudentResponseDTO>> getAllStudentsSorted(@RequestParam String field){
@@ -164,12 +167,33 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    //Sorting by Asending or descending
+    //Sorting by Ascending or descending
     @GetMapping("/sort/dir")
     public ResponseEntity<List<StudentResponseDTO>> getAllStudentsSorted(@RequestParam String field, @RequestParam String direction){
         List<StudentResponseDTO> students = studentService.getAllStudentsSorted(field, direction);
         return ResponseEntity.ok(students);
     }
+
+    //Pagination
+    @GetMapping("/page")
+    public ResponseEntity<Page<StudentResponseDTO>> getStudentWithPagination(@RequestParam int page, @RequestParam int size){
+        Page<StudentResponseDTO> students = studentService.getStudentWithPagination(page, size);
+        return ResponseEntity.ok(students);
+    }
+
+    //Pagination with sorting
+    @GetMapping("/page-sort")
+    public ResponseEntity<Page<StudentResponseDTO>> getStudentWithPaginationWithSorting(@RequestParam int page,
+                                                                                        @RequestParam int size,
+                                                                                        @RequestParam String sortBy,
+                                                                                        @RequestParam String direction){
+        Page<StudentResponseDTO> students = studentService.getStudentWithPaginationWithSorting(page, size, sortBy, direction);
+        return ResponseEntity.ok(students);
+    }
+
+
+
+
 
 }
 

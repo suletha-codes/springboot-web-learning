@@ -5,6 +5,9 @@ import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -145,6 +148,30 @@ public class StudentService {
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
     }
+
+    //Pagination
+    public Page<StudentResponseDTO> getStudentWithPagination(int page, int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
+        return studentPage.map(this::convertToResponseDTO);
+    }
+
+    //Pagination with Sorting
+    public Page<StudentResponseDTO> getStudentWithPaginationWithSorting(int page, int size, String sortBy, String direction){
+        Sort sort;
+        if(direction.equalsIgnoreCase("desc")){
+            sort = Sort.by(sortBy).descending();
+        }else{
+            sort = Sort.by(sortBy).ascending();
+        }
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
+        return studentPage.map(this::convertToResponseDTO);
+    }
+
+
 
 
 
