@@ -246,6 +246,39 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    //Find by Name && Age(One student)
+    @GetMapping("/search-by-name-age")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentsByNameAndAge(
+            @RequestParam String name,
+            @RequestParam int age) {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByNameAndAge(name, age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    //Find by Name && Age(One student)
+    @GetMapping("/search-by-name-or-age")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentsByNameOrAge(
+            @RequestParam String name,
+            @RequestParam int age) {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByNameOrAge(name, age);
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/search-ignore-case")
+    public ResponseEntity<List<StudentResponseDTO>> searchStudentsByNameIgnoreCase(@RequestParam String name) {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByNameContainingIgnoreCase(name);
+
+        return ResponseEntity.ok(students);
+    }
+
+
+
+
 
 
 

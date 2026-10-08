@@ -231,6 +231,32 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
+    //Find by Name && Age
+    public List<StudentResponseDTO> getStudentsByNameAndAge(String name, int age){
+        List<Student> students = studentRepository.findByNameAndAge(name, age);
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by Name || Age
+    public List<StudentResponseDTO> getStudentsByNameOrAge(String name, int age){
+        List<Student> students = studentRepository.findByNameOrAge(name, age);
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by Name Containing "Anything"
+    public List<StudentResponseDTO> getStudentsByNameContainingIgnoreCase(String name){
+        List<Student> students = studentRepository.findByNameContainingIgnoreCase(name);
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
 
 
 
