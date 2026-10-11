@@ -314,6 +314,37 @@ public class StudentService {
         return studentRepository.deleteByAge(age);
     }
 
+    //Custom JPQL Queries
+    public List<String> getDistinctStudentsName(){
+        return studentRepository.findDistinctStudentsName();
+    }
+
+    //Names starting with
+    public List<Student> getStudentsStartingWith(String prefix){
+        return studentRepository.findNamesStartingWith(prefix);
+    }
+
+    //Order By Age ASC
+    public List<Student> getStudentsOrderByAgeAsc(){
+        return studentRepository.findStudentsOrderByAgeAscending();
+    }
+
+    //Order By Age DESC
+    public List<Student> getStudentsOrderByAgeDesc(){
+        return studentRepository.findStudentsOrderByAgeDescending();
+    }
+
+    // Find by Name AND Age >
+    public List<Student> getStudentsByNameAndAgeGreaterThan(String name, int age){
+        return studentRepository.findStudentsByNameAndAgeGreaterThan(name,age);
+    }
+
+    // Find by Name OR Age >
+    public List<Student> getStudentsByNameOrAgeGreaterThan(String name, int age){
+        return studentRepository.findStudentsByNameOrAgeGreaterThan(name,age);
+    }
+
+
 
 
 

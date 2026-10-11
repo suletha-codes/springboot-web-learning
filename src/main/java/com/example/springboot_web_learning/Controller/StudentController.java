@@ -338,6 +338,45 @@ public class StudentController {
         return ResponseEntity.ok(deletedCount);
     }
 
+    //Custom JPQL Queries
+
+    @GetMapping("/jpql/distinct-names")
+    public ResponseEntity<List<String>> getAllDistinctStudents(){
+        List<String> names = studentService.getDistinctStudentsName();
+        return ResponseEntity.ok(names);
+    }
+
+    @GetMapping("/jpql/starts-with")
+    public ResponseEntity<List<Student>> getAllStudentsStartingWith(@RequestParam String prefix){
+        List<Student> students = studentService.getStudentsStartingWith(prefix);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/order-by-age-asc")
+    public ResponseEntity<List<Student>> getAllStudentsOrderByAgeAsc(){
+        List<Student> students = studentService.getStudentsOrderByAgeAsc();
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/order-by-age-desc")
+    public ResponseEntity<List<Student>> getAllStudentsOrderByAgeDesc(){
+        List<Student> students = studentService.getStudentsOrderByAgeDesc();
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/search-name-and-age")
+    public ResponseEntity<List<Student>> getAllStudentNameAndAgeGreaterThan(@RequestParam String name, @RequestParam int age){
+        List<Student> students = studentService.getStudentsByNameAndAgeGreaterThan(name,age);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/search-name-or-age")
+    public ResponseEntity<List<Student>> getAllStudentNameOrAgeGreaterThan(@RequestParam String name, @RequestParam int age){
+        List<Student> students = studentService.getStudentsByNameOrAgeGreaterThan(name,age);
+        return ResponseEntity.ok(students);
+    }
+
+
 
 
 
