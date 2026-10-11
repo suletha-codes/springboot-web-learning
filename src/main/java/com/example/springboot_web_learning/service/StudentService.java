@@ -5,6 +5,7 @@ import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
 import com.example.springboot_web_learning.model.Student;
 import com.example.springboot_web_learning.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -253,6 +254,64 @@ public class StudentService {
         return students.stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    //Find by students "StartingWith"
+    public List<StudentResponseDTO> getStudentsByNameStartingWith(String prefix){
+        List<Student> students = studentRepository.findByNameStartingWith(prefix);
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Find by students "EndingWith"
+    public List<StudentResponseDTO> getStudentsByNameEndingWith(String suffix){
+        List<Student> students = studentRepository.findByNameEndingWith(suffix);
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Sort students by  age-ASC
+    public List<StudentResponseDTO> getStudentsByAgeAscending(){
+        List<Student> students = studentRepository.findAllByOrderByAgeAsc();
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Sort students by  age-DESC
+    public List<StudentResponseDTO> getStudentsByAgeDescending(){
+        List<Student> students = studentRepository.findAllByOrderByAgeDesc();
+        return students.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Count by age
+    public long countStudentsByAge(int age){
+        return studentRepository.countByAge(age);
+    }
+
+    //Count by age GreaterThan
+    public long countStudentsByAgeOlderThan(int age){
+        return studentRepository.countByAgeGreaterThan(age);
+    }
+
+    //To check students exists by name
+    public boolean studentExistsByName(String name){
+        return studentRepository.existsByName(name);
+    }
+
+    //To check students exists by age
+    public boolean studentExistsByAge(int age){
+        return studentRepository.existsByAge(age);
+    }
+
+    //Delete by age
+    @Transactional
+    public long deleteStudentByAge(int age){
+        return studentRepository.deleteByAge(age);
     }
 
 

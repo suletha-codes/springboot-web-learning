@@ -276,6 +276,70 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/search-starts-with")
+    public ResponseEntity<List<StudentResponseDTO>> searchStudentsByNameStartingWith(@RequestParam String prefix) {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByNameStartingWith(prefix);
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/search-ends-with")
+    public ResponseEntity<List<StudentResponseDTO>> searchStudentsByNameEndingWith(@RequestParam String suffix) {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByNameEndingWith(suffix);
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/sort-by-age-asc")
+    public ResponseEntity<List<StudentResponseDTO>> sortStudentsByAgeAscending() {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByAgeAscending();
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/sort-by-age-desc")
+    public ResponseEntity<List<StudentResponseDTO>> sortStudentsByAgeDescending() {
+
+        List<StudentResponseDTO> students = studentService.getStudentsByAgeDescending();
+
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/count-by-age")
+    public ResponseEntity<Long> countStudentsByAge(@RequestParam int age){
+        long count = studentService.countStudentsByAge(age);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count-by-greater-age")
+    public ResponseEntity<Long> countStudentsAgeOlderThan(@RequestParam int age){
+        long count = studentService.countStudentsByAgeOlderThan(age);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/exists-by-name")
+    public ResponseEntity<Boolean> checkStudentExistsByName(@RequestParam String name){
+        boolean exists = studentService.studentExistsByName(name);
+        return ResponseEntity.ok(exists);
+    }
+
+    @GetMapping("/exists-by-age")
+    public ResponseEntity<Boolean> checkStudentExistsByAge(@RequestParam int age){
+        boolean exists = studentService.studentExistsByAge(age);
+        return ResponseEntity.ok(exists);
+    }
+
+    @DeleteMapping("delete-by-age")
+    public ResponseEntity<Long> deleteStudentsByAge(@RequestParam int age){
+        long deletedCount = studentService.deleteStudentByAge(age);
+        return ResponseEntity.ok(deletedCount);
+    }
+
+
+
 
 
 

@@ -24,6 +24,15 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     List<Student> findByNameAndAge(String name, int age);
     List<Student> findByNameOrAge(String name, int age);
     List<Student> findByNameContainingIgnoreCase(String name);
+    List<Student> findByNameStartingWith(String prefix);
+    List<Student> findByNameEndingWith(String suffix);
+    List<Student> findAllByOrderByAgeAsc();
+    List<Student> findAllByOrderByAgeDesc();
+    long  countByAge(int age);
+    long countByAgeGreaterThan(int age);
+    boolean existsByName(String name);
+    boolean existsByAge(int age);
+    long deleteByAge(int age);
 
 
 
