@@ -344,6 +344,56 @@ public class StudentService {
         return studentRepository.findStudentsByNameOrAgeGreaterThan(name,age);
     }
 
+    // Find by Name OR Age < (AND & OR)
+    public List<Student> getStudentsByNameAndAgeLessThan(String name1, String name2, int age){
+        return studentRepository.findStudentsByNameAndAgeLessThan(name1,name2,age);
+    }
+
+    // Find by Names using IN
+    public List<Student> getStudentsByNames(List<String> names){
+        return studentRepository.findByStudentNames(names);
+    }
+
+    // Find by Age using BETWEEN
+    public List<Student> getStudentsByAgeBetween(int minAge, int maxAge){
+        return studentRepository.findByStudentsAgeBetween(minAge,maxAge);
+    }
+
+    //Find max(age)
+    public Integer getMaximumAge(){
+        return studentRepository.findMaximumAge();
+    }
+
+    //Find min(age)
+    public Integer getMinimumAge(){
+        return studentRepository.findMinimumAge();
+    }
+
+    //Find Avg(age)
+    public Double getAverageAge(){
+        return studentRepository.findAverageAge();
+    }
+
+    //Find count of student
+    public Long getCountStudent(){
+        return studentRepository.countAllStudents();
+    }
+
+    // Group By Age
+    public List<Object[]> getCountGroupByAge(){
+        return studentRepository.countStudentGroupByAge();
+    }
+
+    // Having - Filters after Grouping
+    public List<Object[]> getCountGroupByAgeHaving(){
+        return studentRepository.countStudentHaving();
+    }
+
+    // Sum(Age)
+    public Long getSumOfAge(){
+        return studentRepository.findSumOfAge();
+    }
+
 
 
 

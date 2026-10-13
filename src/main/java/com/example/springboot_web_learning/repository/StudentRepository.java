@@ -56,6 +56,34 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     @Query("SELECT s FROM Student s WHERE s.name = :name OR s.age > :age")
     List<Student> findStudentsByNameOrAgeGreaterThan(@Param("name") String name, @Param("age") int age);
 
+    @Query("SELECT s FROM Student s WHERE (s.name = :name1 OR s.name = :name2) AND s.age < :age")
+    List<Student> findStudentsByNameAndAgeLessThan(@Param("name1") String name1, @Param("name2") String name2, @Param("age") int age);
 
+    @Query("SELECT s FROM Student s WHERE s.name IN :names")
+    List<Student> findByStudentNames(@Param("names") List<String> names);
+
+    @Query("SELECT s FROM Student s WHERE s.age BETWEEN :minAge AND :maxAge")
+    List<Student> findByStudentsAgeBetween(@Param("minAge") int minAge, @Param("maxAge") int maxAge);
+
+    @Query("SELECT MAX(s.age) FROM Student s")
+    Integer findMaximumAge();
+
+    @Query("SELECT MIN(s.age) FROM Student s")
+    Integer findMinimumAge();
+
+    @Query("SELECT AVG(s.age) FROM Student s")
+    Double findAverageAge();
+
+    @Query("SELECT COUNT(s) FROM Student s")
+    Long countAllStudents();
+
+    @Query("SELECT s.age, COUNT(s) FROM Student s GROUP BY s.age")
+    List<Object[]> countStudentGroupByAge();
+
+    @Query("SELECT s.age, COUNT(s) FROM Student s " + "GROUP BY s.age HAVING COUNT(s) > 2")
+    List<Object[]> countStudentHaving();
+
+    @Query("SELECT SUM(s.age) FROM Student s")
+    Long findSumOfAge();
 
 }

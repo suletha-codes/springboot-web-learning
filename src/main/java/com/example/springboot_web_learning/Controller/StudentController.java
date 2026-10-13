@@ -376,6 +376,68 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/jpql/search-name-and-age-less")
+    public ResponseEntity<List<Student>> getAllStudentNameAndAgeLessThan(@RequestParam String name1, @RequestParam String name2, @RequestParam int age){
+        List<Student> students = studentService.getStudentsByNameAndAgeLessThan(name1,name2,age);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/search-by-names-in")
+    public ResponseEntity<List<Student>> getAllStudentNames(@RequestParam List<String> names){
+        List<Student> students = studentService.getStudentsByNames(names);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/search-by-age-bw")
+    public ResponseEntity<List<Student>> getAllStudentAgeBetween(@RequestParam int minAge, @RequestParam int maxAge){
+        List<Student> students = studentService.getStudentsByAgeBetween(minAge, maxAge);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/jpql/max-age")
+    public ResponseEntity<Integer> getAllMaximumAge(){
+        Integer maxAge = studentService.getMaximumAge();
+        return ResponseEntity.ok(maxAge);
+    }
+
+    @GetMapping("/jpql/min-age")
+    public ResponseEntity<Integer> getAllMinimumAge(){
+        Integer minAge = studentService.getMinimumAge();
+        return ResponseEntity.ok(minAge);
+    }
+
+    @GetMapping("/jpql/avg-age")
+    public ResponseEntity<Double> getAllAverageAge(){
+        Double avgAge = studentService.getAverageAge();
+        return ResponseEntity.ok(avgAge);
+    }
+
+    @GetMapping("/jpql/count")
+    public ResponseEntity<Long> getStudentsCount(){
+        Long count = studentService.getCountStudent();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/jpql/group-by-age")
+    public ResponseEntity<List<Object[]>> getAllStudentGroupByAge(){
+        List<Object[]> ageCount = studentService.getCountGroupByAge();
+        return  ResponseEntity.ok(ageCount);
+    }
+
+    @GetMapping("/jpql/group-by-age-having")
+    public ResponseEntity<List<Object[]>> getAllStudentGroupByAgeHaving(){
+        List<Object[]> ageHaving = studentService.getCountGroupByAgeHaving();
+        return  ResponseEntity.ok(ageHaving);
+    }
+
+    @GetMapping("/jpql/sum-of-age")
+    public ResponseEntity<Long> getSumOfStudentAge(){
+        Long sum = studentService.getSumOfAge();
+        return ResponseEntity.ok(sum);
+    }
+
+
+
 
 
 
