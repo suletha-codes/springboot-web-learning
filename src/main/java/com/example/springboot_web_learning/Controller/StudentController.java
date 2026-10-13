@@ -436,6 +436,18 @@ public class StudentController {
         return ResponseEntity.ok(sum);
     }
 
+    @GetMapping("/jpql/sum-age-greater")
+    public ResponseEntity<Long> getSumOfStudentAgeGreaterThan(@RequestParam int age){
+        Long sumAgeGreater = studentService.getSumOfAgeGreaterThan(age);
+        return ResponseEntity.ok(sumAgeGreater);
+    }
+
+    @GetMapping("/jpql/sum-gropy-by-age")
+    public ResponseEntity<List<Object[]>> getSumOfStudentAgeGroupByAge(){
+        List<Object[]> groupBySumAge = studentService.getSumOfAgeGroupByAge();
+        return ResponseEntity.ok(groupBySumAge);
+    }
+
 
 
 

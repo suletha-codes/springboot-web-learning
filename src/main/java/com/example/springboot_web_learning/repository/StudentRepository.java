@@ -86,4 +86,11 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     @Query("SELECT SUM(s.age) FROM Student s")
     Long findSumOfAge();
 
+    @Query("SELECT SUM(s.age) FROM Student s WHERE s.age >= :age")
+    Long findSumOfAgeGreaterThan(@Param("age") int age);
+
+    @Query("SELECT s.age, SUM(s.age) FROM Student s GROUP BY s.age")
+    List<Object[]> findSumAgeGroupByAge();
+
+
 }

@@ -3,7 +3,9 @@ package com.example.springboot_web_learning.service;
 import com.example.springboot_web_learning.dto.StudentRequestDTO;
 import com.example.springboot_web_learning.dto.StudentResponseDTO;
 import com.example.springboot_web_learning.dto.StudentUpdateRequestDTO;
+import com.example.springboot_web_learning.model.Course;
 import com.example.springboot_web_learning.model.Student;
+import com.example.springboot_web_learning.repository.CourseRepository;
 import com.example.springboot_web_learning.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -20,12 +22,15 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
 
-//    public String getStudent(){
+
+    //    public String getStudent(){
 //        return studentRepository.findStudent();
 //    }
 
@@ -65,6 +70,13 @@ public class StudentService {
          Student student = new Student();
          student.setName(studentRequestDTO.getName());
          student.setAge(studentRequestDTO.getAge());
+
+         Long courseId = studentRequestDTO.getCourseId();
+         if(courseId != null){
+             Course course = courseRepository.findById(courseId).orElseThrow(()->new RuntimeException("Course not found!"));
+             student.setCourse(course);
+         }
+
 
          return studentRepository.save(student);
     }
@@ -392,6 +404,16 @@ public class StudentService {
     // Sum(Age)
     public Long getSumOfAge(){
         return studentRepository.findSumOfAge();
+    }
+
+    //Sum(Age) > :age
+    public Long getSumOfAgeGreaterThan(int age){
+        return studentRepository.findSumOfAgeGreaterThan(age);
+    }
+
+    //Sum(Age) GroupBy Age
+    public List<Object[]> getSumOfAgeGroupByAge(){
+        return studentRepository.findSumAgeGroupByAge();
     }
 
 

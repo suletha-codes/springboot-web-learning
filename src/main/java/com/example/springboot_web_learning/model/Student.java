@@ -1,9 +1,6 @@
 package com.example.springboot_web_learning.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Student {
@@ -12,6 +9,11 @@ public class Student {
     private Long id;
     private String name;
     private int age;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     public Long getId() {
         return id;
@@ -35,5 +37,13 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
